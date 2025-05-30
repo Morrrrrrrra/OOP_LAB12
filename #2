@@ -1,0 +1,21 @@
+using System;
+using System.Xml;
+class Program
+{
+    static void Main()
+    {
+        XmlDocument doc = new XmlDocument();
+        doc.Load("students.xml");
+        Console.Write("Enter group name (KN1-B24 | M1-B24 | F1-B24) ");
+        string groupName = Console.ReadLine();
+        string xpath = $"/students/student[group='{groupName}']";
+        XmlNodeList studentNodes = doc.SelectNodes(xpath);
+        Console.WriteLine($"\nStudents in group {groupName}:");
+        foreach (XmlNode student in studentNodes)
+        {
+            string fullName = student.SelectSingleNode("name").InnerText;
+            string lastName = fullName.Split(' ')[1];
+            Console.WriteLine(lastName);
+        }
+    }
+}
