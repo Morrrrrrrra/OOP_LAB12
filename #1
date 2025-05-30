@@ -1,0 +1,40 @@
+using System;
+using System.Xml;
+class Program
+{
+    static void Main()
+    {
+        XmlDocument doc = new XmlDocument();
+        doc.AppendChild(doc.CreateElement("students"));
+        string[] names = {
+            "Andrii Shevchenko",
+            "Olena Ivanenko",
+            "Taras Petrenko",
+            "Iryna Bondarenko",
+            "Maksym Koval",
+            "Kateryna Zhuk",
+            "Dmytro Tkachenko",
+            "Oksana Melnyk",
+            "Yurii Polishchuk",
+            "Natalia Kravets"
+        };
+        string[] groups = { "KN1-B24", "M1-B24", "F1-B24" };
+        Random rnd = new Random();
+        for (int i = 0; i < 10; i++)
+        {
+            XmlElement student = doc.CreateElement("student");
+            XmlElement name = doc.CreateElement("name");
+            name.InnerText = names[i];
+            student.AppendChild(name);
+            XmlElement group = doc.CreateElement("group");
+            group.InnerText = groups[i % groups.Length];
+            student.AppendChild(group);
+            XmlElement average = doc.CreateElement("averageScore");
+            average.InnerText = rnd.Next(60, 101).ToString();
+            student.AppendChild(average);
+            doc.DocumentElement.AppendChild(student);
+        }
+        doc.Save("students.xml");
+        Console.WriteLine("XML file 'students.xml' created successfully.");
+    }
+}
